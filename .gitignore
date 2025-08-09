@@ -276,3 +276,10 @@ htmlcov/
 .coverage.*
 coverage.xml
 *.cover
+
+
+# Blob Storage
+blob/
+
+# Cursor config
+.cursor/

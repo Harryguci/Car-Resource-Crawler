@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 from src.routes import items
 from src.routes import image_resources
 from src.config.settings import settings
+from src.config.logging_config import setup_logging, get_logger
 from src.backgroundworker.car_crawler import PexelsCarCrawler, run_car_crawler
 from src.utils.env_utils import get_pexels_config, validate_required_env_vars
 from src.database.connection import init_db, close_db, Base, engine
@@ -12,9 +13,9 @@ import logging
 from typing import Dict, Any, Optional
 from datetime import datetime
 
-# Configure logging
-logging.basicConfig(level=getattr(logging, settings.log_level))
-logger = logging.getLogger(__name__)
+# Setup logging configuration
+setup_logging()
+logger = get_logger(__name__)
 
 app = FastAPI(
     title=settings.app_name,

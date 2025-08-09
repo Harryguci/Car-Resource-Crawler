@@ -4,30 +4,37 @@ Startup script for FastAPI application with environment variable support
 """
 import uvicorn
 from src.config.settings import settings
+from src.config.logging_config import setup_logging, get_logger
 import os
 
 def main():
     """Main function to start the FastAPI application"""
     
-    # Print environment information
-    print(f"Starting {settings.app_name} v{settings.version}")
-    print(f"Environment: {settings.environment}")
-    print(f"Debug mode: {settings.debug}")
-    print(f"Host: {settings.host}")
-    print(f"Port: {settings.port}")
+    # Setup logging first
+    setup_logging()
+    logger = get_logger(__name__)
+    
+    # Log environment information
+    logger.info(f"Starting {settings.app_name} v{settings.version}")
+    logger.info(f"Environment: {settings.environment}")
+    logger.info(f"Debug mode: {settings.debug}")
+    logger.info(f"Host: {settings.host}")
+    logger.info(f"Port: {settings.port}")
+    logger.info(f"Log file: {settings.log_file}")
     
     # Validate required environment variables
     from src.utils.env_utils import validate_required_env_vars
     validation_results = validate_required_env_vars()
 
     if not all(validation_results.values()):
-        print("⚠️  Warning: Some required environment variables are not set:")
+        logger.warning("Some required environment variables are not set:")
         for var, valid in validation_results.items():
             if not valid:
-                print(f"   - {var}")
-        print("   Check your .env file or environment variables.")
+                logger.warning(f"   - {var}")
+        logger.warning("Check your .env file or environment variables.")
     
     # Start the server
+    logger.info("Starting FastAPI server...")
     uvicorn.run(
         "src.main:app",
         host=settings.host,

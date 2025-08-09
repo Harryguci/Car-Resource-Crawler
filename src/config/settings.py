@@ -34,7 +34,10 @@ class Settings(BaseSettings):
     
     # Logging
     log_level: str = "INFO"
-    log_file: Optional[str] = None
+    log_file: str = "logs/log.txt"
+    log_format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    log_max_size: int = 10 * 1024 * 1024  # 10MB
+    log_backup_count: int = 5
     
     # Environment
     environment: str = "development"
