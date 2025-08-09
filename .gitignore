@@ -283,3 +283,6 @@ blob/
 
 # Cursor config
 .cursor/
+
+# Docs
+env.example
