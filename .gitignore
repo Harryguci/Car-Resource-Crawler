@@ -285,4 +285,5 @@ blob/
 .cursor/
 
 # Docs
+docs/
 env.example
